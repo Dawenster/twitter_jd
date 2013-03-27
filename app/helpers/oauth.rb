@@ -4,7 +4,7 @@ helpers do
   end
 
   def request_token 
-    session[:request_token] ||= consumer.get_request_token(:oauth_callback => "http://localhost:9292/auth")
+    session[:request_token] ||= consumer.get_request_token(:oauth_callback => "http://afternoon-caverns-5665.herokuapp.com//auth")
   end
 
   def get_access_token
