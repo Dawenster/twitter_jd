@@ -1,35 +1,16 @@
-<style type="text/css">
-  .container {
-    margin: 20px auto;
-    width: 600px;
-    padding: 0px 20px 20px 20px;
-    border: 1px dotted black;
-  }
-  th {
-    text-align: left;
-  }
-</style>
+<a href="/login/twitter"><img id="twitter-signin" src="/img/sign-in-with-twitter-gray.png"></a>
 
-<div class="container">
-  <h1>Welcome to Sinatra!</h1>
-  <p>Hello, world!</p>
 
-  <table>
-    <tr>
-      <th>File Description</th>
-      <th>File Location</th>
-    </tr>
-    <tr>
-      <td>This view file</td>
-      <td><code><%= __FILE__.gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-    <tr>
-      <td>The layout file</td>
-      <td><code><%= File.expand_path('../layout.erb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-    <tr>
-      <td>The current controller</td>
-      <td><code><%= File.expand_path('../../controllers/index.rb', __FILE__).gsub(Sinatra::Application.root, '') %></code></td>
-    </tr>
-  </table>
-</div>
+  <h1>Welcome <%= @current_user.username if @current_user %></h1>
+
+  <h1>Tweet from here!</h1>
+
+  <form action="/tweet/new" method="post">
+    <input type="text" name="text" placeholder="Your tweet here">
+    <input type="submit" value="Tweet">
+  </form>
+  <br>
+  <p id="response"></p>
+  <img class="waiting" src="/img/original.gif">
+  <p class="waiting">Processing request...</p>
+

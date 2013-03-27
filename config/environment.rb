@@ -20,6 +20,8 @@ require "sinatra/reloader" if development?
 
 require 'erb'
 require 'twitter'
+require 'oauth'
+require 'oauth/consumer'
 
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
@@ -33,9 +35,17 @@ Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
 # Set up the database and models
 require APP_ROOT.join('config', 'database')
 
-Twitter.configure do |config|
-  config.consumer_key = 'qlD284ycs2Wssj6mMeC9g'
-  config.consumer_secret = 'V2XtpZdoFU94u8u5LUMeIP49x6A850MtQI1esRqzUc'
-  config.oauth_token = '1305106410-G5mRMBMHrepy68BLE3qxpPr21hcLPK3lXRFR0Jj'
-  config.oauth_token_secret = 'ZRgZKY1fy5SVoeQgmtqxHaaLv67J8LuK8QkOMwaRQ'
+if Sinatra::Application.development?
+  twitter_data = YAML.load_file(APP_ROOT.join('config', 'twitter.yml'))
+  ENV['TWITTER_KEY'] = twitter_data['twitter_key']
+  ENV['TWITTER_SECRET'] = twitter_data['twitter_secret']
 end
+
+CONSUMER_KEY = ENV['TWITTER_KEY']
+CONSUMER_SECRET = ENV['TWITTER_SECRET']
+
+Twitter.configure do |config|
+  config.consumer_key = CONSUMER_KEY
+  config.consumer_secret = CONSUMER_SECRET
+end
+
