@@ -1,9 +1,7 @@
-<a href="/login/twitter"><img id="twitter-signin" src="/img/sign-in-with-twitter-gray.png"></a>
+<h1>Twitter + OAuth</h1>
+<p>Check out our <a href="http://justsaywen.com/oh-my-auth/">blog post</a> and our <a href="https://github.com/Dawenster/twitter_jd">GitHub repo</a></p>
 
-
-  <h1>Welcome <%= @current_user.username if @current_user %></h1>
-
-  <h1>Tweet from here!</h1>
+<% if @session %>
 
   <form action="/tweet/new" method="post">
     <input type="text" name="text" placeholder="Your tweet here">
@@ -14,3 +12,8 @@
   <img class="waiting" src="/img/original.gif">
   <p class="waiting">Processing request...</p>
 
+<% else %>
+
+  <a href="/login/twitter"><img id="twitter-signin" src="/img/sign-in-with-twitter-gray.png"></a>
+
+<% end %>

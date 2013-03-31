@@ -1,5 +1,5 @@
 get '/' do
-
+  @session = session[:token]
   erb :index
 end
 
@@ -19,6 +19,7 @@ end
 
 get '/auth' do
   get_access_token
+  @session = session[:token]
   erb :index
 end
 

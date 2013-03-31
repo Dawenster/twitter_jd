@@ -1,10 +1,13 @@
 helpers do
   def consumer
-    OAuth::Consumer.new(CONSUMER_KEY, CONSUMER_SECRET, :site => "https://api.twitter.com")
+    OAuth::Consumer.new(ENV['TWITTER_KEY'], ENV['TWITTER_SECRET'],
+                        :site => "https://api.twitter.com")
   end
 
-  def request_token 
-    session[:request_token] ||= consumer.get_request_token(:oauth_callback => "http://sleepy-beyond-3645.herokuapp.com/auth")
+  def request_token
+    host = request.host
+    host << ":9292" if request.host == "localhost"
+    session[:request_token] ||= consumer.get_request_token(:oauth_callback => "http://#{host}/auth")
   end
 
   def get_access_token
@@ -15,15 +18,7 @@ helpers do
   end
 
   def client
-    # return session[:client] if session[:client]
-    @client = Twitter::Client.new(
-          :oauth_token => session[:token],                 
-          :oauth_token_secret => session[:secret])
-
-    # user = TwitterUser.find_or_create_by_username_and_access_token_and_access_secret(
-    #       :username => @client.user,
-    #       :access_token => session[:token],
-    #       :access_secret => session[:secret])
-
+    @client = Twitter::Client.new(:oauth_token => session[:token],                 
+                                  :oauth_token_secret => session[:secret])
   end
 end
